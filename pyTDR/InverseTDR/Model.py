@@ -194,6 +194,7 @@ class Todoroff:
         idsxsec: The index of the second peak (end of the probe)
         node_depths: A list with the depth of installed point soil moisture sensors (m.)
         timeframe: The timestep of the measuremnts with spatial TDR
+        
         """
         timestamp, Vp, WaveAvg, points, cablelen, windowlen, probelen, measurements = self.import_csv()
         Impendance, Ka, lenact=self.inversemodel(idxfirst,idxsec)
