@@ -32,3 +32,7 @@ The repository hosts the source code and data used within the framework of "Spat
 ### Python Package versions
 
 For a complete list, refer to the [requirements.txt](requirements.txt) file.
+
+### Citing the code
+
+Efthymios Chrysanthopoulos, Kallioras, A., & Floros, E. (Nondas) . (2026). efthymios19/pyTDR: pyTDR (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.20787058
