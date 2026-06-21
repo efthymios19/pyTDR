@@ -26,6 +26,8 @@ The repository hosts the source code and data used within the framework of "Spat
 ├── LICENSE
 └── requirements.txt
 ```
+### UML Diagram of Python classes
+<img width="468" height="325" alt="εικόνα" src="https://github.com/user-attachments/assets/8aaa5450-9907-4363-9f2b-f31acc503dd4" />
 
 ### Python Package versions
 
