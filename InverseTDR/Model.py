@@ -212,26 +212,49 @@ class Todoroff:
         timestamp=pd.to_datetime(timestamp)
         end_date=timestamp.iloc[-1] + timedelta(hours=1)
         end_date=end_date.strftime('%Y-%m-%d %H:%M:%S')
-        soilmoistarrays=[]
+        soilmoistarrays = []
+
         for depth, df in node_dataframes.items():
-            #Filter the Datataframe within the start and the end data
-            filtered_df=df[(df['Time']>=start_date) & (df['Time']<=end_date)]
-            node_dataframes[depth]=filtered_df
-            globals()[f"soilmoist_{depth}m"] = filtered_df 
-            #Convert 'Time' column to datetime format and set as index
-            df['Time']=pd.to_datetime(df['Time'], format='mixed')
-            df=df.set_index('Time')
-            # Resample the data to 3 - hour interval
-            df_3hr=df.resample(timeframe).mean()
-            # Convert timestamp to a set of datetimes for quick filtering
-            df_3hr.index=df_3hr.index.tz_localize(None).astype('datetime64[ns]')
-            # Filter dataframes to only keep rows where the index is in the timestamp set
+
+            # Convert Time first
+            df["Time"] = pd.to_datetime(df["Time"], format="mixed", errors="coerce")
+            df = df.dropna(subset=["Time"])
+
+            # Filter within spatial TDR time range
+            filtered_df = df[(df["Time"] >= start_date) & (df["Time"] <= end_date)].copy()
+
+            # Set datetime index
+            filtered_df = filtered_df.set_index("Time").sort_index()
+
+            # Make water_SOIL numeric
+            filtered_df["water_SOIL"] = pd.to_numeric(
+                filtered_df["water_SOIL"],
+                errors="coerce"
+            )
+
+            # Resample to spatial TDR timestep
+            df_3hr = filtered_df.resample(timeframe).mean()
+
+            # Match exactly the TDR timestamps
+            df_3hr.index = df_3hr.index.tz_localize(None).astype("datetime64[ns]")
             df_3hr = df_3hr[df_3hr.index.isin(timestamp)]
-            # Extract 'water_SOIL' values as an array for further processing
-            water_soil_array = df_3hr['water_SOIL'].values
+            porosity_by_depth = {
+
+                0.10: 0.59,
+
+                0.50: 0.51
+
+                }
+            depth_value = float(str(depth).replace("soilmoist_", ""))
+
+            porosity = porosity_by_depth[depth_value]
+            # Convert percent to decimal theta and scale by porosity
+            water_soil_array = (df_3hr["water_SOIL"].to_numpy(dtype=float) / 100.0) * porosity
+
             soilmoistarrays.append(water_soil_array)
-            # Optionally store the resampled and filtered DataFrame and array back in node_dataframes
-            node_dataframes[depth] = df_3hr  # Update the original dictionary with filtered/resampled data
+
+            # Store
+            node_dataframes[depth] = df_3hr
             globals()[f"{depth}_3hr_array"] = water_soil_array
             
         mean_Ka_dict={depth: [] for depth in node_depths}
@@ -240,7 +263,7 @@ class Todoroff:
 
             for depth in node_depths:
                 #Find indices within a small range around the target depth
-                indices=np.where((lenact[timestep] >= depth - 0.05) & (lenact[timestep] < depth + 0.05))[0]
+                indices=np.where((lenact[timestep] >= depth - 0.035) & (lenact[timestep] < depth + 0.035))[0]
                 # Calculate the mean Ka for the current depth if indices are found
                 mean_Ka = np.mean(Ka[timestep][indices]) if indices.size > 0 else np.nan
                 mean_Ka_dict[depth].append(mean_Ka)  # Append mean Ka value to the list for this depth
