@@ -1,6 +1,12 @@
 # pyTDR
 
-The repository hosts the source code and data used within the framework of "Spatiotemporal dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR" manuscript. Documentation on the source code (InverseTDR/Model.py – InverseTDR/ModelPlotter.py) is explicitly provided within the Text S7 of manuscript's Supplementary Information.
+The repository hosts the source code and data used within the framework of "Spatiotemporal dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR" research paper:
+```
+Chrysanthopoulos, E., Perdikaki, M., Nondas Floros, E., Kallioras, A., Spatiotemporal
+dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR, Journal of Hydrology
+(2026), doi: https://doi.org/10.1016/j.jhydrol.2026.135957
+```
+Documentation on the source code (InverseTDR/Model.py – InverseTDR/ModelPlotter.py) is explicitly provided within the Text S7 of Supplementary Material.
 
 ### Repository Structure
 ```text
