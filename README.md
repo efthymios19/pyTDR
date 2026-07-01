@@ -1,6 +1,6 @@
 # pyTDR
 
-The repository hosts the source code and data used within the framework of "Spatiotemporal dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR" research paper:
+The repository hosts the source code and data used within the framework of "Spatiotemporal dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR" (https://doi.org/10.1016/j.jhydrol.2026.135957) research paper:
 ```
 Chrysanthopoulos, E., Perdikaki, M., Nondas Floros, E., Kallioras, A., Spatiotemporal
 dynamics of capillary rise in shallow groundwater table areas revealed by spatial TDR, Journal of Hydrology
